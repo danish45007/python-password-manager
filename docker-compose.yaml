@@ -1,0 +1,26 @@
+version: '3'
+services:
+    db:
+        image: mariadb
+        restart: always
+        volumes:
+            - ./db:/docker-entrypoint-initdb.d
+    app:
+        # Use latest Python Docker image
+        image: 'python:latest'
+
+        # Set container name
+        container_name: python-password-manager
+
+        # Mount entire project into docker container under /repo
+        volumes:
+            - ./:/repo
+
+        # Make all ports accessible on host
+        network_mode: host
+        depends_on:
+            - db
+        # Install requirements and start flask app
+        entrypoint: >
+            bash -c "pip install -r /repo/requirements.txt
+            && python /repo/config.py make"

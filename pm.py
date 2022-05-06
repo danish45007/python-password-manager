@@ -8,6 +8,7 @@ import pyperclip
 from rich import print as printc
 
 import utils.add
+from utils.notify import get_notify
 import utils.retrieve
 import utils.generate
 from utils.dbconfig import dbconfig
@@ -36,6 +37,7 @@ def inputAndValidateMasterPassword():
 	cursor.execute(query)
 	result = cursor.fetchall()[0]
 	if hashed_mp != result[0]:
+		get_notify('Incorrect password try again')
 		printc("[red][!] WRONG! [/red]")
 		return None
 
