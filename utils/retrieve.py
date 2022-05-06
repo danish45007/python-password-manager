@@ -11,6 +11,8 @@ from rich import print as printc
 from rich.console import Console
 from rich.table import Table
 
+from utils.notify import get_notify
+
 def computeMasterKey(mp,ds):
 	password = mp.encode()
 	salt = ds.encode()
@@ -59,8 +61,8 @@ def retrieveEntries(mp, ds, search, decryptPassword = False):
 
 		# decrypt password
 		decrypted = utils.aesutil.decrypt(key=mk,source=results[0][4],keyType="bytes")
-
 		printc("[green][+][/green] Password copied to clipboard")
+		get_notify('Password copied to clipboard')
 		pyperclip.copy(decrypted.decode())
 
 	db.close()
